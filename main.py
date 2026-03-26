@@ -55,7 +55,7 @@ async def post_glucose_loop():
                 time_text = f"{minutes_ago} min ago"
             else:
                 time_text = "just now"
-            message = f"\U0001F497 **BG:** {value} mg/dL {arrow}\n\u23F1 Updated {time_text}"
+            message = f"\U0001F497 **BG:** {value} mg/dL  {arrow}\n\u23F1 Updated {time_text}"
             await channel.send(message)
         except Exception as e:
             print(f"Error during glucose fetch/post: {e}")
@@ -79,7 +79,7 @@ async def on_ready():
 
 # HTTP server handler
 async def handle(request):
-    return web.Response(text="GlucoBot is running.", content_type="text/plain")
+    return web.Response(text="GlucoBot is running.")
 
 async def start_web_server():
     app = web.Application()
