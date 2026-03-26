@@ -55,7 +55,8 @@ async def post_glucose_loop():
                 time_text = f"{minutes_ago} min ago"
             else:
                 time_text = "just now"
-            message = f"{value}mg/dL {arrow}"
+                mmol = round(value / 18, 1)
+            message = f"🩸 **BG:**\n{value}mg/dL ({mmol} mmol/L) {arrow}\nUpdated {time_text} ⏱"
             await channel.send(message)
         except Exception as e:
             print(f"Error during glucose fetch/post: {e}")
