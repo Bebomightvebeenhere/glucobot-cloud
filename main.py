@@ -46,20 +46,20 @@ async def post_glucose_loop():
     await client.wait_until_ready()
     channel = client.get_channel(CHANNEL_ID)
     while not client.is_closed():
-        try:
+                try:
             value, arrow, ts = await asyncio.get_event_loop().run_in_executor(None, fetch_glucose_sync)
-            # compute time since reading
-           mmol = round(value / 18, 1)
 
-if ts:
-    now = datetime.now(timezone.utc)
-    minutes_ago = int((now - ts).total_seconds() // 60)
-    time_text = f"{minutes_ago} min ago"
-else:
-    time_text = "just now"
+            mmol = round(value / 18, 1)
 
-message = f"🩸 **BG:**\n{value}mg/dL ({mmol} mmol/L) {arrow}\nUpdated {time_text} ⏱"
-await channel.send(message)
+            if ts:
+                now = datetime.now(timezone.utc)
+                minutes_ago = int((now - ts).total_seconds() // 60)
+                time_text = f"{minutes_ago} min ago"
+            else:
+                time_text = "just now"
+
+            message = f"🩸 **BG:**\n{value}mg/dL ({mmol} mmol/L) {arrow}\nUpdated {time_text} ⏱"
+            await channel.send(message)
         except Exception as e:
             print(f"Error during glucose fetch/post: {e}")
         # Wait 5 minutes
